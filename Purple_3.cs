@@ -1,8 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Lab_6.Purple_4;
 
 namespace Lab_6
 {
@@ -102,6 +103,16 @@ namespace Lab_6
 
                     }
                 }
+                Array.Sort(array, (x, y) =>
+                {
+                    if (x.Score > y.Score) return -1;
+                    if (x.Score < y.Score) return 1;
+                    if (x.Places.Min() < y.Places.Min()) return 1;
+                    if (x.Places.Min() > y.Places.Min()) return -1;
+                    if (x.Marks.Sum() > y.Marks.Sum()) return -1;
+                    if (x.Marks.Sum() < y.Marks.Sum()) return 1;
+                    else return 0;
+                });
             }
             private static bool Compare(Participant p1, Participant p2)
             {
