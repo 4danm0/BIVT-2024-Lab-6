@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -88,89 +88,19 @@ namespace Lab_6
 
             public string[] GetTopResponses(int question)
             {
-                if (_responses == null) return null;
-                string[] responses = new string[0];
-                int[] count = new int[0];
-
-                foreach (var response in _responses)
+                if (_responses == null) { return null; }
+                switch (question)
                 {
-                    switch (question)
-                    {
-                        case 1:
-                            if (response.Animal != null && response.Animal != "")
-                            {
-                                if (!responses.Contains(response.Animal))
-                                {
-                                    Array.Resize(ref responses, responses.Length + 1);
-                                    Array.Resize(ref count, count.Length + 1);
-                                    responses[responses.Length - 1] = response.Animal;
-                                    count[responses.Length - 1] = 1;
-                                }
-                                else count[Array.IndexOf(responses, response.Animal)]++;
-                            }
-                            break;
-                        case 2:
-                            if (response.CharacterTrait != null && response.CharacterTrait != "")
-                            {
-                                if (!responses.Contains(response.CharacterTrait))
-                                {
-                                    Array.Resize(ref responses, responses.Length + 1);
-                                    Array.Resize(ref count, count.Length + 1);
-                                    responses[responses.Length - 1] = response.CharacterTrait;
-                                    count[responses.Length - 1] = 1;
-                                }
-                                else count[Array.IndexOf(responses, response.CharacterTrait)]++;
-                            }
-                            break;
-                        case 3:
-                            if (response.Concept != null && response.Concept != "")
-                            {
-                                if (!responses.Contains(response.Concept))
-                                {
-                                    Array.Resize(ref responses, responses.Length + 1);
-                                    Array.Resize(ref count, count.Length + 1);
-                                    responses[responses.Length - 1] = response.Concept;
-                                    count[responses.Length - 1] = 1;
-                                }
-                                else count[Array.IndexOf(responses, response.Concept)]++;
-                            }
-                            break;
-                    }
+                    case 1:return _responses.GroupBy(x => x.Animal).Where(x => x.Key != null && x.Key.Length != 0).OrderByDescending(x => x.Count()).Take(5).Select(x => x.Key).ToArray();
+
+                    case 2: return _responses.GroupBy(x => x.CharacterTrait).Where(x => x.Key != null && x.Key.Length != 0).OrderByDescending(x => x.Count()).Take(5).Select(x => x.Key).ToArray();
+
+                    case 3: return _responses.GroupBy(x => x.Concept).Where(x => x.Key != null && x.Key.Length != 0).OrderByDescending(x => x.Count()).Take(5).Select(x => x.Key).ToArray();
+
                 }
-
-                SortTop(responses, count);
-
-                string[] topResponses = new string[responses.Length];
-                int i = 0;
-                Array.Copy(responses, topResponses, responses.Length);
-
-                if (topResponses.Length > 5)
-                {
-                    Array.Resize(ref topResponses, 5);
-                }
-
-                return topResponses;
-            }
-
-            private static void SortTop(string[] keys, int[] values)
-            {
-                int n = values.Length;
-                for (int i = 0; i < n - 1; i++)
-                {
-                    for (int j = 0; j < n - i - 1; j++)
-                    {
-                        if (values[j] < values[j + 1])
-                        {
-                            int tempValue = values[j];
-                            values[j] = values[j + 1];
-                            values[j + 1] = tempValue;
-
-                            string tempKey = keys[j];
-                            keys[j] = keys[j + 1];
-                            keys[j + 1] = tempKey;
-                        }
-                    }
-                }
+                
+                return null;
+                
             }
 
             public void Print()
