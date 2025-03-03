@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -41,17 +41,17 @@ namespace Lab_6
         public struct Group
         {
             private string _name;
-            private Sportsman[] _teammates;
+            private Sportsman[] _sportsmen;
 
             public string Name => _name;
             public Sportsman[] Sportsmen
             {
                 get
                 {
-                    if (_teammates == null) return default(Sportsman[]);
+                    if (_sportsmen == null) return default(Sportsman[]);
 
-                    var newArray = new Sportsman[_teammates.Length];
-                    Array.Copy(_teammates, newArray, _teammates.Length);
+                    var newArray = new Sportsman[_sportsmen.Length];
+                    Array.Copy(_sportsmen, newArray, _sportsmen.Length);
                     return newArray;
                 }
             }
@@ -59,59 +59,53 @@ namespace Lab_6
             public Group(string name)
             {
                 _name = name;
-                _teammates = new Sportsman[0]; 
+                _sportsmen = new Sportsman[0]; 
             }
             public Group(Group group)
             {
                 _name = group.Name;
                 if (group.Sportsmen == null)
                 {
-                    _teammates = new Sportsman[0];
+                    _sportsmen = new Sportsman[0];
                     return;
                 }
-                _teammates = new Sportsman[group.Sportsmen.Length];
-                Array.Copy(group.Sportsmen, _teammates, group.Sportsmen.Length);
+                _sportsmen = new Sportsman[group.Sportsmen.Length];
+                Array.Copy(group.Sportsmen, _sportsmen, group.Sportsmen.Length);
             }
 
             public void Add(Sportsman newSportsman)
             {
-                if (_teammates == null) return;
-                Array.Resize(ref _teammates, _teammates.Length + 1); 
-                _teammates[_teammates.Length - 1] = newSportsman;
+                if (_sportsmen == null) return;
+                Array.Resize(ref _sportsmen, _sportsmen.Length + 1);
+                _sportsmen[_sportsmen.Length - 1] = newSportsman;
             }
 
             public void Add(Sportsman[] newSportsmen)
             {
-                if (newSportsmen == null || _teammates == null) return;
-                int oldLength = _teammates.Length;
-                Array.Resize(ref _teammates, _teammates.Length + newSportsmen.Length);
-                Array.Copy(newSportsmen, 0, _teammates, oldLength, newSportsmen.Length); 
+                if (newSportsmen == null || _sportsmen == null) return;
+                int oldLength = _sportsmen.Length;
+                Array.Resize(ref _sportsmen, _sportsmen.Length + newSportsmen.Length);
+                Array.Copy(newSportsmen, 0, _sportsmen, oldLength, newSportsmen.Length); 
             }
 
             public void Add(Group group) 
             {
-                if (group.Sportsmen == null || _teammates == null) return;
-                int oldLength = _teammates.Length;
-                Array.Resize(ref _teammates, _teammates.Length + group.Sportsmen.Length); 
-                Array.Copy(group.Sportsmen, 0, _teammates, oldLength, group.Sportsmen.Length);
+                if (group.Sportsmen == null || _sportsmen == null) return;
+                int oldLength = _sportsmen.Length;
+                Array.Resize(ref _sportsmen, _sportsmen.Length + group.Sportsmen.Length); 
+                Array.Copy(group.Sportsmen, 0, _sportsmen, oldLength, group.Sportsmen.Length);
             }
 
             public void Sort()
             {
-                if (_teammates == null) return;
+                if (_sportsmen == null) return;
 
-                for (int i = 0; i < _teammates.Length; i++)
+                Array.Sort(_sportsmen, (x, y) =>
                 {
-                    for (int j = 0; j < _teammates.Length - i - 1; j++)
-                    {
-                        if (_teammates[j].Time > _teammates[j+1].Time)
-                        {
-                            var t = _teammates[j];
-                            _teammates[j] = _teammates[j + 1];
-                            _teammates[j + 1] = t;
-                        }
-                    }
-                }
+                    if (x.Time < y.Time) return -1;
+                    else if (x.Time > y.Time) return 1;
+                    else return 0;
+                });
             }
 
             public static Group Merge(Group group1, Group group2)
@@ -144,7 +138,7 @@ namespace Lab_6
             public void Print()
             {
                 Console.WriteLine($"Group name: {_name}");
-                foreach (Sportsman sportsman in _teammates)
+                foreach (Sportsman sportsman in _sportsmen)
                 {
                     sportsman.Print();
                 }
