@@ -61,17 +61,7 @@ namespace Lab_6
             private Response[] _responses;
 
             public string Name => _name;
-            public Response[] Responses
-            {
-                get
-                {
-                    if (_responses == null) return default(Response[]);
-
-                    var newArray = new Response[_responses.Length];
-                    Array.Copy(_responses, newArray, _responses.Length);
-                    return newArray;
-                }
-            }
+            public Response[] Responses => _responses;
 
             public Research(string name)
             {
@@ -99,7 +89,7 @@ namespace Lab_6
 
                 }
                 
-                return null;
+                return null;    
                 
             }
 
