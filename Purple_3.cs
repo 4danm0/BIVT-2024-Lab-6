@@ -30,17 +30,8 @@ namespace Lab_6
                     return newArray;
                 }
             }
-            public int[] Places
-            {
-                get
-                {
-                    if (_places == null) return default(int[]);
+            public int[] Places => _places;
 
-                    var newArray = new int[_places.Length];
-                    Array.Copy(_places, newArray, _places.Length);
-                    return newArray;
-                }
-            }
             public int Score => _places == null ? 0 : _places.Sum();
             public Participant(string name, string surname)
             {
@@ -72,37 +63,19 @@ namespace Lab_6
             private static void SortJudge(Participant[] array, int judgeIndex)
             {
                 if (array == null) return;
-                for (int i = 0; i < array.Length; i++)
+
+                Array.Sort(array, (x, y) =>
                 {
-                    for (int j = 0; j < array.Length - i - 1; j++)
-                    {
-                        if (array[j].Marks[judgeIndex] > array[j + 1].Marks[judgeIndex])
-                        {
-                            var t = array[j];
-                            array[j] = array[j + 1];
-                            array[j + 1] = t;
-                        }
-                    }
-                }
+                    if (x.Marks[judgeIndex] < y.Marks[judgeIndex]) return -1;
+                    else if (x.Marks[judgeIndex] > y.Marks[judgeIndex]) return 1;
+                    else return 0;
+                });
             }
 
             public static void Sort(Participant[] array)
             {
                 if (array == null) return;
 
-                for (int i = 0; i < array.Length; i++)
-                {
-                    for (int j = 0; j < array.Length - i - 1; j++)
-                    {
-                        if (Compare(array[j], array[j+1]))
-                        {
-                            var t = array[j];
-                            array[j] = array[j + 1];
-                            array[j + 1] = t;
-                        }
-
-                    }
-                }
                 Array.Sort(array, (x, y) =>
                 {
                     if (x.Score > y.Score) return -1;
@@ -113,12 +86,6 @@ namespace Lab_6
                     if (x.Marks.Sum() < y.Marks.Sum()) return 1;
                     else return 0;
                 });
-            }
-            private static bool Compare(Participant p1, Participant p2)
-            {
-                if (p1.Score != p2.Score) return p1.Score > p2.Score;
-                if (p1.Places.Min() != p2.Places.Min()) return p1.Places.Min() < p2.Places.Min(); 
-                return p1.Marks.Sum() > p2.Marks.Sum(); 
             }
             public void Print()
             {
