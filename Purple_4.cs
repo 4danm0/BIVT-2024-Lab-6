@@ -99,13 +99,18 @@ namespace Lab_6
             public void Sort()
             {
                 if (_sportsmen == null) return;
-
-                Array.Sort(_sportsmen, (x, y) =>
+                for (int i = 0; i < _sportsmen.Length; i++)
                 {
-                    if (x.Time < y.Time) return -1;
-                    else if (x.Time > y.Time) return 1;
-                    else return 0;
-                });
+                    Sportsman key = _sportsmen[i];
+                    int j = i - 1;
+
+                    while (j >= 0 && _sportsmen[j].Time > key.Time) //ascending
+                    {
+                        _sportsmen[j + 1] = _sportsmen[j];
+                        j = j - 1;
+                    }
+                    _sportsmen[j + 1] = key;
+                }
             }
 
             public static Group Merge(Group group1, Group group2)
