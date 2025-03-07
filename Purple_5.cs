@@ -27,26 +27,27 @@ namespace Lab_6
 
             public int CountVotes(Response[] responses, int questionNumber)
             {
-                if (responses == null) return 0;
-                int answered = 0;
+                if (responses == null || questionNumber < 1 || questionNumber > 3) return 0;
+                int count = 0;
                 for (int i = 0; i < responses.Length; i++)
                 {
                     switch (questionNumber)
                     {
                         case 1:
-                            if (responses[i].Animal != null && responses[i].Animal != "") answered++;
+                            if (responses[i].Animal != null && responses[i].Animal == _animal)
+                                count++;
                             break;
                         case 2:
-                            if (responses[i].CharacterTrait != null && responses[i].CharacterTrait != "") answered++;
+                            if (responses[i].CharacterTrait != null && responses[i].CharacterTrait == _characterTrait)
+                                count++;
                             break;
                         case 3:
-                            if (responses[i].Concept != null && responses[i].Concept != "") answered++;
+                            if (responses[i].Concept != null && responses[i].Concept == _concept)
+                                count++;
                             break;
-                        default:
-                            return 0;
                     }
                 }
-                return answered;
+                return count;
             }
 
             public void Print()
