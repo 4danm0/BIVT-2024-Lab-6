@@ -62,30 +62,50 @@ namespace Lab_6
             }
             private static void SortJudge(Participant[] array, int judgeIndex)
             {
-                if (array == null) return;
-
-                Array.Sort(array, (x, y) =>
+                foreach (var part in array)
                 {
-                    if (x.Marks[judgeIndex] < y.Marks[judgeIndex]) return -1;
-                    else if (x.Marks[judgeIndex] > y.Marks[judgeIndex]) return 1;
-                    else return 0;
-                });
+                    if (part.Marks == null) return;
+                }
+                for (int i = 0; i < array.Length; i++)
+                {
+                    Participant key = array[i];
+                    int j = i - 1;
+
+                    while (j >= 0 && array[j].Marks[judgeIndex] < key.Marks[judgeIndex])
+                    {
+                        array[j + 1] = array[j];
+                        j = j - 1;
+                    }
+                    array[j + 1] = key;
+                }
             }
 
             public static void Sort(Participant[] array)
             {
                 if (array == null) return;
-
-                Array.Sort(array, (x, y) =>
+                foreach (var part in array)
                 {
-                    if (x.Score > y.Score) return -1;
-                    if (x.Score < y.Score) return 1;
-                    if (x.Places.Min() < y.Places.Min()) return 1;
-                    if (x.Places.Min() > y.Places.Min()) return -1;
-                    if (x.Marks.Sum() > y.Marks.Sum()) return -1;
-                    if (x.Marks.Sum() < y.Marks.Sum()) return 1;
-                    else return 0;
-                });
+                    if (part.Places == null) return;
+                }
+                for (int i = 0; i < array.Length; i++)
+                {
+                    Participant key = array[i];
+                    int j = i - 1;
+
+                    while (j >= 0 && Compare(array[j], key))
+                    {
+                        array[j + 1] = array[j];
+                        j = j - 1;
+                    }
+                    array[j + 1] = key;
+                }
+            }
+            private static bool Compare(Participant p1, Participant p2)
+            {
+
+                if (p1.Score != p2.Score) return p1.Score > p2.Score;
+                if (p1.Places.Min() != p2.Places.Min()) return p1.Places.Min() < p2.Places.Min(); //Parity by sum of places
+                return p1.Marks.Sum() > p2.Marks.Sum(); //Parity by max judge place
             }
             public void Print()
             {
