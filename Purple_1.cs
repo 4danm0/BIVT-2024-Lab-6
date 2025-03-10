@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -54,7 +54,7 @@ namespace Lab_6
                         int[] newArr = new int[7];
                         double sum = 0;
                         for (int j = 0; j < _marks.GetLength(1); j++) newArr[j] = _marks[i, j];
-                        for (int j = 0; j < newArr.Length; j++) sum += newArr[j];   
+                        for (int j = 0; j < newArr.Length; j++) sum += newArr[j];
                         sum -= (newArr.Min() + newArr.Max());
                         sum *= _coefs[i];
                         totalScore += sum;
@@ -80,7 +80,7 @@ namespace Lab_6
 
             public void Jump(int[] marks)
             {
-                if (marks == null || _marks == null || _jumps > 4) return; 
+                if (marks == null || _marks == null || _jumps >= _marks.GetLength(1) || marks.Length != _marks.GetLength(1)) return; 
                 for (int i = 0; i < _marks.GetLength(1); i++)
                 {
                     _marks[_jumps, i] = marks[i];
@@ -127,7 +127,7 @@ namespace Lab_6
                 }
                 Console.WriteLine();
             }
-        }
+        }   
 
 
 
