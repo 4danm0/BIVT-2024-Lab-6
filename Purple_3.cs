@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static Lab_6.Purple_4;
 
 namespace Lab_6
 {
@@ -51,15 +50,21 @@ namespace Lab_6
             public static void SetPlaces(Participant[] participants)
             {
                 if (participants == null) return;
-                for (int judgeIndex = 0; judgeIndex < 7; judgeIndex++)
+                for (int i = 0; i < 7; i++)
                 {
-                    SortJudge(participants, judgeIndex);
-                    for (int i = 0; i < participants.Length; i++)
+                    SortJudge(participants, i);
+                    for (int j = 0; j < participants.Length; j++)
                     {
-                        participants[i]._places[judgeIndex] = i + 1;
+                        participants[j].Method(i, j + 1);
                     }
                 }
             }
+            private void Method(int i, int j)
+            {
+                if (_places == null || i < 0 || i >= _places.Length) return;
+                _places[i] = j;
+            }
+
             private static void SortJudge(Participant[] array, int judgeIndex)
             {
                 foreach (var part in array)
@@ -104,8 +109,8 @@ namespace Lab_6
             {
 
                 if (p1.Score != p2.Score) return p1.Score > p2.Score;
-                if (p1.Places.Min() != p2.Places.Min()) return p1.Places.Min() < p2.Places.Min(); //Parity by sum of places
-                return p1.Marks.Sum() > p2.Marks.Sum(); //Parity by max judge place
+                if (p1.Places.Min() != p2.Places.Min()) return p1.Places.Min() > p2.Places.Min(); //Parity by sum of places
+                return p1.Marks.Sum() < p2.Marks.Sum(); //Parity by max judge place
             }
             public void Print()
             {
