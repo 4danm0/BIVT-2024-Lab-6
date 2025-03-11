@@ -80,7 +80,7 @@ namespace Lab_6
 
             public void Jump(int[] marks)
             {
-                if (marks == null || _marks == null || _jumps >= _marks.GetLength(1) || marks.Length != _marks.GetLength(1)) return; 
+                if (marks == null || _marks == null || _jumps >= _marks.GetLength(0) || marks.Length != _marks.GetLength(1)) return; 
                 for (int i = 0; i < _marks.GetLength(1); i++)
                 {
                     _marks[_jumps, i] = marks[i];
